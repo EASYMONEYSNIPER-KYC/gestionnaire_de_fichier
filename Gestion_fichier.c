@@ -38,7 +38,7 @@ return tailleFichier;
 }
 
 // Nbr de mot
-void nbr_mot(char *fichier_txt){
+int nbr_mot(char *fichier_txt){
   FILE *pointeur = fopen("fichier_texte.txt","r");
 if(pointeur == NULL){
   perror("Erreur d'ouverture du fichier.\n");
@@ -55,9 +55,12 @@ while ((c=fgetc(pointeur))!=EOF){
     nbr_mot++;
   }  
 }
+printf("Nombre de caractère du fichier: %d\n",nbr_mot);
+return nbr_mot;
 }
+
 //nbr de ligne
-void nbr_ligne(char *fichier_txt){
+int nbr_ligne(char *fichier_txt){
   FILE *pointeur = fopen("fichier_texte.txt","r");
 if(pointeur == NULL){
   perror("Erreur d'ouverture du fichier.\n");
@@ -68,6 +71,8 @@ char ligne[100];
 while (fgets(ligne,100,pointeur)!=NULL){
   line++;
 }
+printf("Nombre de ligne du fichier: %d\n",line);
+return line;
 }
 
 // fileToStr (Chaine de caractère contenant tout le fichier)
@@ -89,18 +94,25 @@ char *fileToStr(char *fichier_txt){
     return str_of_file;
     free(str_of_file);
 }
-
+// Conversion de la casse en minuscule
+void Conv_in_min(char *mot){
+    for(int i=0;mot[i]!='\0';i++){
+        if(mot[i]>='A' && mot[i]<='Z'){
+            mot[i] +=32;
+        }
+    }
+}
 //Dictionnaire
 typedef struct 
 {
   char wrd[50];
   int frequency;
 }Gestionnaire;
-
+//Fonction pour l analyse de texte 
 int main(){
 // Choix du fichier
 char fichier[100];
-printf("Entrer le chemin du fichier entre " ": ");
+printf("Entrer le chemin du fichier entre quote "": ");
 fgets(fichier,100,stdin);
 int l1 = strlen(fichier);
   if(fichier[l1-1] == '\n'){
@@ -114,17 +126,19 @@ if (pointeur == NULL){
 }
 char c[500];
 // caractere_nonimprimable[]={0x00, 0x07, 0x08, 0x1B, 0x7F};
-size_t taille = fread(c,1,sizeof(c),pointeur);
+size_t taille;
 int binary_or_txt = 0;
-while (taille >0){
+while ((taille = fread(c,1,sizeof(c),pointeur)) > 0){
   for (size_t i = 0; i < taille; i++){
     if (c[i] == 0x00 || c[i] == 0x07 || c[i] == 0x08 || c[i] == 0x1B || c[i] == 0x7F){
       binary_or_txt = 1;
       break;
     }
   }
+  if(binary_or_txt){
+    break;
+  }
 }
-fclose(pointeur);
 // Analyse du fichier
   if(binary_or_txt == 1){
     printf("Le fichier est binaire\n");
@@ -135,6 +149,8 @@ fclose(pointeur);
     //fonction pour l analyse des fichiers texte
     //(A COMPLETER)
   }
-    fclose(pointeur);
+  // fileToStr(fichier)
+  // char min[//Taille du fichier//] = Conv_in_min(fichier);
+  fclose(pointeur);
 return 0;
 }
