@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_WORD_LENGTH 50
+#define MAX_WORDS 1000
+
+typedef struct {
+    char word[MAX_WORD_LENGTH];
+    int count;
+} WordCount;
+
+int findWord(WordCount words[], int size, const char *word) {
+    for (int i = 0; i < size; i++) {
+        if (strcmp(words[i].word, word) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int main() {
+    char filename[100];
+    char mot[MAX_WORD_LENGTH];
+    WordCount words[MAX_WORDS];
+    int wordCount = 0;
+
+    // Demander le nom du fichier à l'utilisateur
+    printf("Entrez le nom du fichier : ");
+    scanf("%s", filename);
+
+    // Ouvrir le fichier en mode lecture
+    FILE *fichier = fopen(filename, "r");
+    if (fichier == NULL) {
+        // Afficher l'erreur et quitter si le fichier ne peut pas être ouvert
+        printf("Erreur d'ouverture du fichier texte %s\n", filename);
+        return 1;
+    }
+
+    // Lire les mots du fichier un par un
+    while (fscanf(fichier, "%49s", mot) == 1) {
+        int index = findWord(words, wordCount, mot);
+        if (index != -1) {
+            words[index].count++;
+        } else {
+            strcpy(words[wordCount].word, mot);
+            words[wordCount].count = 1;
+            wordCount++;
+        }
+    }
+
+    // Fermer le fichier
+    fclose(fichier);
+
+    // Afficher les fréquences des mots
+    for (int i = 0; i < wordCount; i++) {
+        printf("Le mot '%s' apparaît %d fois.\n", words[i].word, words[i].count);
+    }
+
+    return 0;
+}
