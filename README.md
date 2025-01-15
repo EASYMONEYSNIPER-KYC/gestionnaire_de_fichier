@@ -23,7 +23,7 @@ Il s’agit de développer un programme qui nous permet d’analyser un texte co
 - **analyser_frequence_txt** : Un fonction qui nous permet de calculer et d'afficher la frequence de chaque et le mettre dans une structure,
 d'afficher les mots les plus fréquents à travers un calcul de moyenne et de rechercher la fréquence d'un mot spécifique.
 - **add_fichier** : Une fonction qui concatènent deux fichiers textes.
-- **sauvegarder_statistiques** : Une fonction qui sauvegarde les resultats de outcome et de la frequence des mots dans un fichier nommé 'sauvegarder_analyse' situé dans le même repertoire que notre projet
+- **sauvegarder_statistiques** : Une fonction qui sauvegarde les resultats de outcome et de la frequence des mots dans un fichier nommé 'Sauvegarder_fichier' situé dans le même repertoire que notre projet
 
 
 ## Remarque
